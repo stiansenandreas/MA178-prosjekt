@@ -24,7 +24,7 @@ def newton_raphson(x0, f, df):
                 roots[i] = None
                 print('No roots found')
                 break
-            if not 10*x0[0] < x1 < 10*x0[-1]:  # luker ut gjetninger som går langt utenfor området
+            if not 10 * x0[0] < x1 < 10 * x0[-1]:  # luker ut gjetninger som går langt utenfor området
                 roots[i] = None
                 steps[i] = None
                 break
@@ -39,7 +39,11 @@ def newton_raphson(x0, f, df):
 def plot(x0, f, df):
     roots, steps = newton_raphson(x0, f, df)
     fig, axs = plt.subplots(2)
-    fig.suptitle('x from {:.2f} to {:.2f} with {:.2f} points'.format(x0[0], x0[-1], len(x0)))
+    if flag == 1:
+        fig.suptitle('x from {} to {} with {} points'.format(x0[0], x0[-1], len(x0)))
+    elif flag == 2:
+        fig.suptitle(
+            'x from {:.2f} to {:.2f} with {} points, and theta_1 = {:.2f}'.format(x0[0], x0[-1], len(x0), theta_1))
 
     axs[0].plot(x0, f(x0), x0, df(x0))
     axs[0].legend(['f(x)', "f'(x)"])
@@ -66,11 +70,19 @@ def print_roots(roots):
     ind = np.argpartition(-counts, kth=2)[:2]              # hver verdi dukker opp, printer ut de to røttene som
     print('\nRoots found:')                                # dukker opp flest ganger
     for i in ind:
-        print('x = {} found from {} initial values'.format(values[i], counts[i]))
-    print('Out of a total of {} initial values evaluated, {} failed'.format(len(roots), len(roots)-counts[ind[0]]-counts[ind[1]]))
+        if flag == 1:
+            print('x = {} evaluated from {} initial values'.format(values[i], counts[i]))
+        elif flag == 2:
+            print('x= {} evaluated from {} initial values, {:.2f} radians is {:.2f} degrees'.format(
+                values[i], counts[i], values[i], values[i]*(180/np.pi)))
+    print('Out of a total of {} initial values evaluated, {} failed'.format(
+        len(roots), len(roots) - counts[ind[0]] - counts[ind[1]]))
 
 
 # oppgave 1
+flag = 1
+
+
 def func_1(x):
     return 3 * x ** 2 + 4 * x - 4
 
@@ -83,23 +95,26 @@ def dfunc_1(x):
 plot(np.linspace(-1, 1, 100), func_1, dfunc_1)
 plot(np.linspace(-5, 5, 100), func_1, dfunc_1)
 
-
 # oppgave 2
+flag = 2
+
+
 def func_2(x):
-    return 34*np.cos(theta_1-x)-40*np.cos(theta_1)-170*np.cos(x)-24*np.sin(theta_1)-102*np.sin(x) + 163.25
+    return 34 * np.cos(theta_1 - x) - 40 * np.cos(theta_1) - 170 * np.cos(x) - 24 * np.sin(theta_1) \
+           - 102 * np.sin(x) + 163.25
 
 
 def dfunc_2(x):
-    return -34*np.sin(x-theta_1)+170*np.sin(x)-102*np.cos(x)
+    return -34 * np.sin(x - theta_1) + 170 * np.sin(x) - 102 * np.cos(x)
 
 
 # plotter de forskjellige theta_1 verdiene, med samme intervall fordi denne funksjonen er periodevis og vi er kun
-# interessert i det som skjer innenfor samme periode
+# interessert i de to røttene som er innenfor samme periode
 
 theta_1 = 0
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
 
-theta_1 = np.pi/2
+theta_1 = np.pi / 2
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
 
 theta_1 = np.pi

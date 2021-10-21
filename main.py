@@ -10,12 +10,13 @@ def newton_raphson(x0, f, df):
     max_steps = 100
 
     for i in range(len(x0)):  # nested loop som går gjennom alle x0 verdiene
+        if df(x0[i]) == 0:  # sjekker om den deriverte er 0 så vi ikke får et udefinert uttrykk
+            roots[i] = None
+            steps[i] = None
+            print('Undefined')
+            continue
+
         for j in range(0, max_steps):  # loop for å prøve å finne rota for x0
-
-            if df(x0[i]) == 0:  # sjekker om den deriverte er 0 så vi ikke får et udefinert uttrykk
-                print('Undefined')
-                break
-
             x1 = roots[i] - f(roots[i]) / df(roots[i])  # selve newton-raphson metoden
             roots[i] = x1  # oppdaterer x-verdien for neste iterasjon
 
@@ -80,9 +81,6 @@ def print_roots(roots):
 
 
 # oppgave 1
-flag = 1
-
-
 def func_1(x):
     return 3 * x ** 2 + 4 * x - 4
 
@@ -91,23 +89,23 @@ def dfunc_1(x):
     return 6 * x + 4
 
 
+flag = 1
 # regner ut med forskjellige intervaller av x0-verdier for å studere oppførselen til metoden
-plot(np.linspace(-1, 1, 100), func_1, dfunc_1)
-plot(np.linspace(-5, 5, 100), func_1, dfunc_1)
+plot(np.linspace(-1, 1, 1000), func_1, dfunc_1)
+plot(np.linspace(-5, 5, 1000), func_1, dfunc_1)
+
 
 # oppgave 2
-flag = 2
-
-
 def func_2(x):
-    return 34 * np.cos(theta_1 - x) - 40 * np.cos(theta_1) - 170 * np.cos(x) - 24 * np.sin(theta_1) \
-           - 102 * np.sin(x) + 163.25
+    return (34 * np.cos(theta_1 - x) - 40 * np.cos(theta_1) - 170 * np.cos(x) - 24 * np.sin(theta_1)
+            - 102 * np.sin(x) + 163.25)
 
 
 def dfunc_2(x):
     return -34 * np.sin(x - theta_1) + 170 * np.sin(x) - 102 * np.cos(x)
 
 
+flag = 2
 # plotter de forskjellige theta_1 verdiene, med samme intervall fordi denne funksjonen er periodevis og vi er kun
 # interessert i de to røttene som er innenfor samme periode
 

@@ -53,6 +53,8 @@ def plot(x0, f, df):
     axs[0].set_xlabel("x")
     axs[0].set_ylabel("y")
     axs[0].plot([i for i in root_values], np.zeros(len(root_values)), ls='', marker='o', c='r')  # punkter for røttene
+    for x, y in zip(root_values, np.zeros(len(root_values))):
+        axs[0].annotate('x = {:.3f}'.format(x), xy=(x, y), textcoords='data')
 
     axs[1].plot(x0, roots, x0, steps)   # nederste grafen med en oversikt over røtter for hver x0 samt antall steg
     axs[1].legend(['roots', 'steps'])
@@ -116,14 +118,17 @@ def dfunc_2(x):
 
 flag = 2
 
-# plotter de forskjellige theta_1 verdiene, med samme intervall fordi denne funksjonen er periodevis og vi er kun
-# interessert i de to røttene som er innenfor samme periode
+# plotter de forskjellige theta_1 verdiene, med de to samme intervallene fordi denne funksjonen er periodevis og vi er
+# kun interessert i de to røttene som er innenfor samme periode
 
 theta_1 = 0
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
+plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)
 
 theta_1 = np.pi / 2
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
+plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)
 
 theta_1 = np.pi
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
+plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)

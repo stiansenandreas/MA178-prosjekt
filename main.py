@@ -39,9 +39,9 @@ def print_roots(roots):
     print('\nRoots found:')                                # dukker opp flest ganger
 
     for i in ind:
-        if oppgave == 1:
+        if assignment == 1:
             print('x = {} evaluated from {} initial values'.format(values[i], counts[i]))
-        elif oppgave == 2:
+        elif assignment == 2:
             print('x= {} evaluated from {} initial values, {:.2f} radians is {:.2f} degrees'.format(
                 values[i], counts[i], values[i], values[i]*(180/np.pi)))     # konverter også til grader for oppgave 2
 
@@ -61,9 +61,9 @@ def plot(x0, f, df):
 
     fig, axs = plt.subplots(2)
 
-    if oppgave == 1:   # overskrifter til grafene
+    if assignment == 1:   # overskrifter til grafene
         fig.suptitle('x from {} to {} with {} points'.format(x0[0], x0[-1], len(x0)))
-    elif oppgave == 2:
+    elif assignment == 2:
         fig.suptitle(
             'x from {:.2f} to {:.2f} with {} points, and theta_1 = {:.2f}'.format(x0[0], x0[-1], len(x0), theta_1))
 
@@ -88,7 +88,7 @@ def plot(x0, f, df):
     plt.show()
 
 
-oppgave = 1
+assignment = 1
 
 
 def func_1(x):
@@ -105,7 +105,7 @@ plot(np.linspace(-1, 1, 1000), func_1, dfunc_1)
 plot(np.linspace(-5, 5, 1000), func_1, dfunc_1)
 
 
-oppgave = 2
+assignment = 2
 
 
 def func_2(x):

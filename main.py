@@ -10,6 +10,7 @@ def newton_raphson(x0, f, df):
     max_steps = 100
 
     for i in range(len(x0)):  # nested loop som går gjennom alle x0 verdiene
+
         if df(x0[i]) == 0:  # sjekker om den deriverte er 0 så vi ikke får et udefinert uttrykk
             roots[i] = None
             steps[i] = None
@@ -31,6 +32,25 @@ def newton_raphson(x0, f, df):
     return roots, steps
 
 
+def print_roots(roots):
+    np.round_(roots, decimals=6, out=roots)                # runder av røttene til 6 desimaler så det er lettere å se
+    values, counts = np.unique(roots, return_counts=True)  # hvilke som egentlig er like, og finner ut hvor mange ganger
+    ind = np.argpartition(-counts, kth=2)[:2]              # hver verdi dukker opp, printer ut de to verdiene som
+    print('\nRoots found:')                                # dukker opp flest ganger
+
+    for i in ind:
+        if oppgave == 1:
+            print('x = {} evaluated from {} initial values'.format(values[i], counts[i]))
+        elif oppgave == 2:
+            print('x= {} evaluated from {} initial values, {:.2f} radians is {:.2f} degrees'.format(
+                values[i], counts[i], values[i], values[i]*(180/np.pi)))     # konverter også til grader for oppgave 2
+
+    print('Out of a total of {} initial values evaluated, {} failed'.format(
+        len(roots), len(roots) - counts[ind[0]] - counts[ind[1]]))
+
+    return [values[i] for i in ind]
+
+
 def plot(x0, f, df):
     roots, steps = newton_raphson(x0, f, df)
     root_values = print_roots(roots)
@@ -41,9 +61,9 @@ def plot(x0, f, df):
 
     fig, axs = plt.subplots(2)
 
-    if flag == 1:   # overskrifter til grafene
+    if oppgave == 1:   # overskrifter til grafene
         fig.suptitle('x from {} to {} with {} points'.format(x0[0], x0[-1], len(x0)))
-    elif flag == 2:
+    elif oppgave == 2:
         fig.suptitle(
             'x from {:.2f} to {:.2f} with {} points, and theta_1 = {:.2f}'.format(x0[0], x0[-1], len(x0), theta_1))
 
@@ -68,26 +88,8 @@ def plot(x0, f, df):
     plt.show()
 
 
-def print_roots(roots):
-    np.round_(roots, decimals=6, out=roots)                # runder av røttene til 6 desimaler så det er lettere å se
-    values, counts = np.unique(roots, return_counts=True)  # hvilke som egentlig er like, og finner ut hvor mange ganger
-    ind = np.argpartition(-counts, kth=2)[:2]              # hver verdi dukker opp, printer ut de to verdiene som
-    print('\nRoots found:')                                # dukker opp flest ganger
+oppgave = 1
 
-    for i in ind:
-        if flag == 1:
-            print('x = {} evaluated from {} initial values'.format(values[i], counts[i]))
-        elif flag == 2:
-            print('x= {} evaluated from {} initial values, {:.2f} radians is {:.2f} degrees'.format(
-                values[i], counts[i], values[i], values[i]*(180/np.pi)))     # konverter også til grader for oppgave 2
-
-    print('Out of a total of {} initial values evaluated, {} failed'.format(
-        len(roots), len(roots) - counts[ind[0]] - counts[ind[1]]))
-
-    return [values[i] for i in ind]
-
-
-# oppgave 1
 
 def func_1(x):
     return 3 * x ** 2 + 4 * x - 4
@@ -97,15 +99,14 @@ def dfunc_1(x):
     return 6 * x + 4
 
 
-flag = 1
-
 # regner ut med forskjellige intervaller av x0-verdier for å studere oppførselen til metoden
 
 plot(np.linspace(-1, 1, 1000), func_1, dfunc_1)
 plot(np.linspace(-5, 5, 1000), func_1, dfunc_1)
 
 
-# oppgave 2
+oppgave = 2
+
 
 def func_2(x):
     return (34 * np.cos(theta_1 - x) - 40 * np.cos(theta_1) - 170 * np.cos(x) - 24 * np.sin(theta_1)
@@ -115,8 +116,6 @@ def func_2(x):
 def dfunc_2(x):
     return -34 * np.sin(x - theta_1) + 170 * np.sin(x) - 102 * np.cos(x)
 
-
-flag = 2
 
 # plotter de forskjellige theta_1 verdiene, med de to samme intervallene fordi denne funksjonen er periodevis og vi er
 # kun interessert i de to røttene som er innenfor samme periode

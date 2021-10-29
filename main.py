@@ -16,7 +16,7 @@ def newton_raphson(x0, f, df):
             steps[i] = None
             continue
 
-        for j in range(0, max_steps):  # loop for å prøve å finne rota for x0
+        for j in range(0, max_steps):  # loop for å prøve å finne en rot med x0
 
             roots[i] += - f(roots[i]) / df(roots[i])  # selve newton-raphson metoden
 
@@ -122,12 +122,9 @@ def dfunc_2(x):
 
 theta_1 = 0
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
-plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)
 
 theta_1 = np.pi / 2
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
-plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)
 
 theta_1 = np.pi
 plot(np.linspace(-np.pi, np.pi, 100), func_2, dfunc_2)
-plot(np.linspace(0, 2*np.pi), func_2, dfunc_2)

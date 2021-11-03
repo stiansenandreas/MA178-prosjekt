@@ -47,10 +47,9 @@ x0 = [1, np.pi/4, 1, 5]
 
 
 for fx, x0, dfx, i in zip(fx, x0, dfx, range(len(fx))):
-    dx = 0.1
-    print("\nTilnærming av f{}'(x0) med g(x0): {:.5f}".format(i+1, gx(x0, fx, dx)))
+    print("\nTilnærming av f{}'(x0) med g(x0): {:.5f}".format(i+1, gx(x0, fx, 0.1)))
     print("Eksakt verdi av f{}'(x0): {:.5f}".format(i+1, dfx(x0)))
-    print("Feilen E{}(x0): {:.5f}".format(i+1, ex(x0, fx, dfx, gx, dx)))
+    print("Feilen E{}(x0): {:.5f}".format(i+1, ex(x0, fx, dfx, gx, 0.1)))
     dx = 1
     while ex(x0, fx, dfx, gx, dx) > 0.001:
         dx /= 1.001

@@ -38,7 +38,7 @@ def gx(x, f, dx):
     return (f(x+dx)-f(x))/dx
 
 
-def ex(x, f, df, g, dx):    # Definerer E(x)=f'(x)-g(x)
+def ex(x, f, df, g, dx):
     return np.abs(df(x)-g(x, f, dx))
 
 
@@ -65,3 +65,8 @@ for x, fx, x0, dfx, i in zip(x, fx, x0, dfx, range(len(fx))):
         dx_max /= 1.001
     print("Største dx som gir E(x0)<=0.001: {:.2g}".format(dx_max))
     plot(x, fx, dfx, gx, ex, dx_max)
+
+plot(np.linspace(0, 2, 1000), f1, df1, gx, ex, 1)
+plot(np.linspace(0, 2, 1000), f1, df1, gx, ex, 0.5)
+plot(np.linspace(0, 2, 1000), f1, df1, gx, ex, 0.000001)
+plot(np.linspace(0, 2, 1000), f1, df1, gx, ex, -1)
